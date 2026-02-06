@@ -4,7 +4,6 @@ frontend/dist/
 frontend/.env
 
 # Backend
-backend/hello-world-backend
 
 # OS
 .DS_Store

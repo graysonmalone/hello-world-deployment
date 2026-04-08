@@ -595,6 +595,22 @@
   background: var(--purple-dark);
 }
 
+.btn-logout {
+  background: #dc3545;
+  color: var(--white);
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #c82333;
+}
+
 /* Test Password Box */
 .test-password-box {
   margin-top: 1.5rem;

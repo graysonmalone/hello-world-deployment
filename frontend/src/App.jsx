@@ -475,17 +475,25 @@ function AdminPage() {
     setShowAddForm(true)
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem('authToken')
+    navigate('/login')
+  }
+
   if (!isLoggedIn) return null
   if (isLoading) return <main className="main-content"><p>Loading...</p></main>
 
   return (
     <main className="main-content">
       <section className="page-section">
-        <h2>Admin Dashboard</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <h2 style={{ marginBottom: 0 }}>Admin Dashboard</h2>
+          <button onClick={handleLogout} className="btn-logout">Logout</button>
+        </div>
         <p>Manage athletes, meets, and results.</p>
 
         <div style={{ marginBottom: '1rem' }}>
-          <button onClick={() => { setShowAddForm(!showAddForm); setEditingAthlete(null); setFormData({ name: '', grade: '', school_level: 'high_school', personal_record: '' }) }} className="btn-primary">
+          <button onClick={() => { setShowAddForm(!showAddForm); setEditingAthlete(null); setFormData({ name: '', grade: '', school_level: 'high_school', personal_record: '' }) }} className="btn-primary" style={{ width: 'auto' }}>
             {showAddForm ? 'Cancel' : 'Add New Athlete'}
           </button>
         </div>

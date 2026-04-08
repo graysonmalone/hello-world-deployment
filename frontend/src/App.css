@@ -579,6 +579,56 @@
   background: #c82333;
 }
 
+.btn-copy {
+  background: var(--purple);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-copy:hover {
+  background: var(--purple-dark);
+}
+
+/* Test Password Box */
+.test-password-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--gold-light);
+  border-radius: 8px;
+  border: 2px dashed var(--gold-dark);
+  text-align: center;
+}
+
+.test-label {
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+.test-password-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.test-password-row code {
+  background: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 1rem;
+  color: var(--purple-dark);
+  border: 1px solid var(--gray-light);
+}
+
 .logout-btn {
   background: transparent;
   color: var(--white);

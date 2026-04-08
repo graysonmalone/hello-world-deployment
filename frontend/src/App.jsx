@@ -167,7 +167,7 @@ function AthletesPage() {
         <h2>Team Roster</h2>
         <p>Meet the athletes who represent Jones County Cross Country.</p>
 
-        <div className="section-header">🏫 High School</div>
+        <h3 style={{ color: 'white', marginTop: '2rem' }}>🏫 High School</h3>
         <div className="roster-grid">
           {highSchool.map(athlete => (
             <div className="athlete-card" key={athlete.id}>
@@ -179,7 +179,7 @@ function AthletesPage() {
           ))}
         </div>
 
-        <div className="section-header" style={{ marginTop: '2rem' }}>🏫 Middle School</div>
+        <h3 style={{ color: 'white', marginTop: '2rem' }}>🏫 Middle School</h3>
         <div className="roster-grid">
           {middleSchool.map(athlete => (
             <div className="athlete-card" key={athlete.id}>
@@ -345,8 +345,11 @@ function ContactPage() {
 function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [copied, setCopied] = useState(false)
   const navigate = useNavigate()
   const { login } = useAuth()
+
+  const testPassword = 'greyhounds2026'
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -355,6 +358,12 @@ function LoginPage() {
     } else {
       setError('Invalid password')
     }
+  }
+
+  const copyPassword = () => {
+    navigator.clipboard.writeText(testPassword)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
@@ -375,6 +384,15 @@ function LoginPage() {
             {error && <p className="error-message">{error}</p>}
             <button type="submit" className="btn-primary">Login</button>
           </form>
+          <div className="test-password-box">
+            <p className="test-label">For Testing Purposes Only</p>
+            <div className="test-password-row">
+              <code>{testPassword}</code>
+              <button onClick={copyPassword} className="btn-copy">
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
+            </div>
+          </div>
         </div>
       </section>
     </main>

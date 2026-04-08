@@ -3,6 +3,15 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import './App.css'
 
+// Shadcn Components
+import { Button } from './components/ui/button'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './components/ui/card'
+import { Input } from './components/ui/input'
+import { Label } from './components/ui/label'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './components/ui/table'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './components/ui/dialog'
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
 
 // Auth context
@@ -64,7 +73,7 @@ function App() {
             {isLoggedIn ? (
               <>
                 <li><Link to="/admin" className="admin-link">Admin</Link></li>
-                <li><button onClick={logout} className="logout-btn">Logout</button></li>
+                <li><Button variant="outline" size="sm" onClick={logout} className="text-purple-dark border-purple-dark hover:bg-purple hover:text-white">Logout</Button></li>
               </>
             ) : (
               <li><Link to="/login" className="login-link">Login</Link></li>
@@ -125,22 +134,34 @@ function HomePage() {
         <section className="page-section">
           <h2>Welcome</h2>
           <p>The Jones County Cross Country program develops student-athletes who excel on the course and in the classroom.</p>
-          <div className="card-grid">
-            <div className="card">
-              <div className="card-icon">🏃</div>
-              <h3>Our Mission</h3>
-              <p>To develop dedicated runners who demonstrate excellence, sportsmanship, and teamwork.</p>
-            </div>
-            <div className="card">
-              <div className="card-icon">🏆</div>
-              <h3>Competitive Excellence</h3>
-              <p>Our athletes compete at region, sectional, and state championships.</p>
-            </div>
-            <div className="card">
-              <div className="card-icon">📚</div>
-              <h3>Academic Achievement</h3>
-              <p>We believe in the student-athlete model with strong academics.</p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <Card className="border-t-4 border-t-gold">
+              <CardHeader>
+                <div className="text-4xl mb-2">🏃</div>
+                <CardTitle>Our Mission</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>To develop dedicated runners who demonstrate excellence, sportsmanship, and teamwork.</CardDescription>
+              </CardContent>
+            </Card>
+            <Card className="border-t-4 border-t-gold">
+              <CardHeader>
+                <div className="text-4xl mb-2">🏆</div>
+                <CardTitle>Competitive Excellence</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>Our athletes compete at region, sectional, and state championships.</CardDescription>
+              </CardContent>
+            </Card>
+            <Card className="border-t-4 border-t-gold">
+              <CardHeader>
+                <div className="text-4xl mb-2">📚</div>
+                <CardTitle>Academic Achievement</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>We believe in the student-athlete model with strong academics.</CardDescription>
+              </CardContent>
+            </Card>
           </div>
         </section>
       </main>
@@ -155,8 +176,8 @@ function AthletesPage() {
     queryFn: () => fetch(`${API_URL}/api/athletes`).then(res => res.json())
   })
 
-  if (isLoading) return <main className="main-content"><p>Loading athletes...</p></main>
-  if (error) return <main className="main-content"><p>Error loading athletes</p></main>
+  if (isLoading) return <main className="main-content"><p className="text-white p-8">Loading athletes...</p></main>
+  if (error) return <main className="main-content"><p className="text-white p-8">Error loading athletes</p></main>
 
   const highSchool = athletes?.filter(a => a.school_level === 'high_school') || []
   const middleSchool = athletes?.filter(a => a.school_level === 'middle_school') || []
@@ -168,26 +189,34 @@ function AthletesPage() {
         <p>Meet the athletes who represent Jones County Cross Country.</p>
 
         <h3 style={{ color: 'white', marginTop: '2rem' }}>🏫 High School</h3>
-        <div className="roster-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
           {highSchool.map(athlete => (
-            <div className="athlete-card" key={athlete.id}>
-              <div className="avatar">🏃</div>
-              <h4>{athlete.name}</h4>
-              <p>{athlete.grade}</p>
-              <p><strong>PR: {athlete.personal_record || 'N/A'}</strong></p>
-            </div>
+            <Card key={athlete.id} className="border-l-4 border-l-gold">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple to-purple-light rounded-full mx-auto flex items-center justify-center text-2xl text-white mb-2">🏃</div>
+                <CardTitle className="text-lg">{athlete.name}</CardTitle>
+                <CardDescription>{athlete.grade}</CardDescription>
+              </CardHeader>
+              <CardContent className="text-center">
+                <p className="font-semibold text-purple">PR: {athlete.personal_record || 'N/A'}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
         <h3 style={{ color: 'white', marginTop: '2rem' }}>🏫 Middle School</h3>
-        <div className="roster-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
           {middleSchool.map(athlete => (
-            <div className="athlete-card" key={athlete.id}>
-              <div className="avatar">🏃</div>
-              <h4>{athlete.name}</h4>
-              <p>{athlete.grade}</p>
-              <p><strong>PR: {athlete.personal_record || 'N/A'}</strong></p>
-            </div>
+            <Card key={athlete.id} className="border-l-4 border-l-gold">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple to-purple-light rounded-full mx-auto flex items-center justify-center text-2xl text-white mb-2">🏃</div>
+                <CardTitle className="text-lg">{athlete.name}</CardTitle>
+                <CardDescription>{athlete.grade}</CardDescription>
+              </CardHeader>
+              <CardContent className="text-center">
+                <p className="font-semibold text-purple">PR: {athlete.personal_record || 'N/A'}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
@@ -202,8 +231,8 @@ function SchedulePage() {
     queryFn: () => fetch(`${API_URL}/api/meets`).then(res => res.json())
   })
 
-  if (isLoading) return <main className="main-content"><p>Loading schedule...</p></main>
-  if (error) return <main className="main-content"><p>Error loading schedule</p></main>
+  if (isLoading) return <main className="main-content"><p className="text-white p-8">Loading schedule...</p></main>
+  if (error) return <main className="main-content"><p className="text-white p-8">Error loading schedule</p></main>
 
   return (
     <main className="main-content">
@@ -211,24 +240,26 @@ function SchedulePage() {
         <h2>2026 Schedule</h2>
         <p>View our complete schedule of meets and events.</p>
 
-        <table className="schedule-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Event</th>
-              <th>Location</th>
-            </tr>
-          </thead>
-          <tbody>
-            {meets?.map(meet => (
-              <tr key={meet.id}>
-                <td>{meet.date}</td>
-                <td><strong>{meet.name}</strong></td>
-                <td>{meet.location}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Card className="mt-6">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Date</TableHead>
+                <TableHead>Event</TableHead>
+                <TableHead>Location</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {meets?.map(meet => (
+                <TableRow key={meet.id}>
+                  <TableCell>{meet.date}</TableCell>
+                  <TableCell className="font-semibold">{meet.name}</TableCell>
+                  <TableCell>{meet.location}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Card>
       </section>
     </main>
   )
@@ -241,8 +272,8 @@ function ResultsPage() {
     queryFn: () => fetch(`${API_URL}/api/results`).then(res => res.json())
   })
 
-  if (isLoading) return <main className="main-content"><p>Loading results...</p></main>
-  if (error) return <main className="main-content"><p>Error loading results</p></main>
+  if (isLoading) return <main className="main-content"><p className="text-white p-8">Loading results...</p></main>
+  if (error) return <main className="main-content"><p className="text-white p-8">Error loading results</p></main>
 
   return (
     <main className="main-content">
@@ -250,26 +281,28 @@ function ResultsPage() {
         <h2>Race Results</h2>
         <p>View recent meet results and individual performances.</p>
 
-        <table className="schedule-table">
-          <thead>
-            <tr>
-              <th>Athlete</th>
-              <th>Meet</th>
-              <th>Time</th>
-              <th>Place</th>
-            </tr>
-          </thead>
-          <tbody>
-            {results?.map(result => (
-              <tr key={result.id}>
-                <td><strong>{result.athlete_name}</strong></td>
-                <td>{result.meet_name}</td>
-                <td>{result.time}</td>
-                <td>{result.place}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Card className="mt-6">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Athlete</TableHead>
+                <TableHead>Meet</TableHead>
+                <TableHead>Time</TableHead>
+                <TableHead>Place</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {results?.map(result => (
+                <TableRow key={result.id}>
+                  <TableCell className="font-semibold">{result.athlete_name}</TableCell>
+                  <TableCell>{result.meet_name}</TableCell>
+                  <TableCell>{result.time}</TableCell>
+                  <TableCell>{result.place}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Card>
       </section>
     </main>
   )
@@ -289,16 +322,18 @@ function CoachesPage() {
         <h2>Coaching Staff</h2>
         <p>Our dedicated coaches develop well-rounded student-athletes.</p>
 
-        {coaches.map((coach, index) => (
-          <div className="coach-card" key={index}>
-            <div className="avatar">👤</div>
-            <div>
-              <h3>{coach.name}</h3>
-              <p className="title">{coach.title}</p>
-              <p><a href={`mailto:${coach.email}`}>{coach.email}</a></p>
-            </div>
-          </div>
-        ))}
+        <div className="space-y-4 mt-6">
+          {coaches.map((coach, index) => (
+            <Card key={index} className="flex flex-row items-center gap-6 p-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-gold to-gold-dark rounded-full flex items-center justify-center text-3xl flex-shrink-0">👤</div>
+              <div>
+                <CardTitle className="text-xl mb-1">{coach.name}</CardTitle>
+                <p className="text-purple font-semibold mb-1">{coach.title}</p>
+                <a href={`mailto:${coach.email}`} className="text-gray-600 hover:text-purple">{coach.email}</a>
+              </div>
+            </Card>
+          ))}
+        </div>
       </section>
     </main>
   )
@@ -312,29 +347,34 @@ function ContactPage() {
         <h2>Contact Us</h2>
         <p>Get in touch with the Jones County Cross Country program.</p>
 
-        <div className="contact-grid">
-          <div className="contact-item">
-            <div className="icon">📧</div>
-            <div>
-              <h4>Email</h4>
-              <p>crosscountry@jones.k12.ga.us</p>
-            </div>
-          </div>
-          <div className="contact-item">
-            <div className="icon">📞</div>
-            <div>
-              <h4>Phone</h4>
-              <p>(478) 986-3000</p>
-            </div>
-          </div>
-          <div className="contact-item">
-            <div className="icon">📍</div>
-            <div>
-              <h4>Address</h4>
-              <p>Jones County High School</p>
-              <p>167 Greyhound Way, Gray, GA 31032</p>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <Card>
+            <CardContent className="flex items-start gap-4 pt-6">
+              <div className="w-12 h-12 bg-gold rounded-full flex items-center justify-center text-xl flex-shrink-0">📧</div>
+              <div>
+                <CardTitle className="text-lg mb-1">Email</CardTitle>
+                <CardDescription>crosscountry@jones.k12.ga.us</CardDescription>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="flex items-start gap-4 pt-6">
+              <div className="w-12 h-12 bg-gold rounded-full flex items-center justify-center text-xl flex-shrink-0">📞</div>
+              <div>
+                <CardTitle className="text-lg mb-1">Phone</CardTitle>
+                <CardDescription>(478) 986-3000</CardDescription>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="flex items-start gap-4 pt-6">
+              <div className="w-12 h-12 bg-gold rounded-full flex items-center justify-center text-xl flex-shrink-0">📍</div>
+              <div>
+                <CardTitle className="text-lg mb-1">Address</CardTitle>
+                <CardDescription>Jones County High School<br />167 Greyhound Way, Gray, GA 31032</CardDescription>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </main>
@@ -370,29 +410,38 @@ function LoginPage() {
     <main className="main-content">
       <section className="page-section">
         <h2>Admin Login</h2>
-        <div className="login-form-container">
-          <form onSubmit={handleSubmit} className="login-form">
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter admin password"
-              />
-            </div>
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="btn-primary">Login</button>
-          </form>
-          <div className="test-password-box">
-            <p className="test-label">For Testing Purposes Only</p>
-            <div className="test-password-row">
-              <code>{testPassword}</code>
-              <button onClick={copyPassword} className="btn-copy">
-                {copied ? 'Copied!' : 'Copy'}
-              </button>
-            </div>
-          </div>
+        <div className="flex justify-center mt-8">
+          <Card className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle>Sign In</CardTitle>
+              <CardDescription>Enter your password to access the admin dashboard</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter admin password"
+                  />
+                </div>
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+                <Button type="submit" className="w-full">Login</Button>
+              </form>
+              <div className="mt-6 p-4 bg-gold-light rounded-lg border-2 border-dashed border-gold-dark text-center">
+                <p className="text-sm text-gray-500 italic mb-2">For Testing Purposes Only</p>
+                <div className="flex items-center justify-center gap-3">
+                  <code className="bg-white px-3 py-1 rounded border text-purple-dark">{testPassword}</code>
+                  <Button variant="secondary" size="sm" onClick={copyPassword}>
+                    {copied ? 'Copied!' : 'Copy'}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </main>
@@ -405,7 +454,7 @@ function AdminPage() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
-  const [showAddForm, setShowAddForm] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [editingAthlete, setEditingAthlete] = useState(null)
   const [formData, setFormData] = useState({ name: '', grade: '', school_level: 'high_school', personal_record: '' })
 
@@ -432,7 +481,7 @@ function AdminPage() {
     }),
     onSuccess: () => {
       queryClient.invalidateQueries(['athletes'])
-      setShowAddForm(false)
+      setDialogOpen(false)
       setFormData({ name: '', grade: '', school_level: 'high_school', personal_record: '' })
     }
   })
@@ -445,6 +494,7 @@ function AdminPage() {
     }),
     onSuccess: () => {
       queryClient.invalidateQueries(['athletes'])
+      setDialogOpen(false)
       setEditingAthlete(null)
       setFormData({ name: '', grade: '', school_level: 'high_school', personal_record: '' })
     }
@@ -472,7 +522,13 @@ function AdminPage() {
       school_level: athlete.school_level,
       personal_record: athlete.personal_record || ''
     })
-    setShowAddForm(true)
+    setDialogOpen(true)
+  }
+
+  const openAddDialog = () => {
+    setEditingAthlete(null)
+    setFormData({ name: '', grade: '', school_level: 'high_school', personal_record: '' })
+    setDialogOpen(true)
   }
 
   const handleLogout = () => {
@@ -481,76 +537,91 @@ function AdminPage() {
   }
 
   if (!isLoggedIn) return null
-  if (isLoading) return <main className="main-content"><p>Loading...</p></main>
+  if (isLoading) return <main className="main-content"><p className="text-white p-8">Loading...</p></main>
 
   return (
     <main className="main-content">
       <section className="page-section">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h2 style={{ marginBottom: 0 }}>Admin Dashboard</h2>
-          <button onClick={handleLogout} className="btn-logout">Logout</button>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="mb-0">Admin Dashboard</h2>
+          <Button variant="destructive" onClick={handleLogout}>Logout</Button>
         </div>
         <p>Manage athletes, meets, and results.</p>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <button onClick={() => { setShowAddForm(!showAddForm); setEditingAthlete(null); setFormData({ name: '', grade: '', school_level: 'high_school', personal_record: '' }) }} className="btn-primary" style={{ width: 'auto' }}>
-            {showAddForm ? 'Cancel' : 'Add New Athlete'}
-          </button>
+        <div className="my-6">
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button onClick={openAddDialog}>Add New Athlete</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{editingAthlete ? 'Edit Athlete' : 'Add New Athlete'}</DialogTitle>
+                <DialogDescription>
+                  {editingAthlete ? 'Update the athlete information below.' : 'Fill in the details to add a new athlete.'}
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input id="name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="grade">Grade</Label>
+                  <Input id="grade" value={formData.grade} onChange={(e) => setFormData({...formData, grade: e.target.value})} required />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="school_level">School Level</Label>
+                  <Select value={formData.school_level} onValueChange={(value) => setFormData({...formData, school_level: value})}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select school level" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="high_school">High School</SelectItem>
+                      <SelectItem value="middle_school">Middle School</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="pr">Personal Record</Label>
+                  <Input id="pr" value={formData.personal_record} onChange={(e) => setFormData({...formData, personal_record: e.target.value})} placeholder="e.g., 16:42" />
+                </div>
+                <DialogFooter>
+                  <Button type="submit">{editingAthlete ? 'Update' : 'Add'} Athlete</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
 
-        {showAddForm && (
-          <div className="admin-form-container">
-            <h3>{editingAthlete ? 'Edit Athlete' : 'Add New Athlete'}</h3>
-            <form onSubmit={handleSubmit} className="admin-form">
-              <div className="form-group">
-                <label>Name</label>
-                <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} required />
-              </div>
-              <div className="form-group">
-                <label>Grade</label>
-                <input type="text" value={formData.grade} onChange={(e) => setFormData({...formData, grade: e.target.value})} required />
-              </div>
-              <div className="form-group">
-                <label>School Level</label>
-                <select value={formData.school_level} onChange={(e) => setFormData({...formData, school_level: e.target.value})}>
-                  <option value="high_school">High School</option>
-                  <option value="middle_school">Middle School</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Personal Record</label>
-                <input type="text" value={formData.personal_record} onChange={(e) => setFormData({...formData, personal_record: e.target.value})} placeholder="e.g., 16:42" />
-              </div>
-              <button type="submit" className="btn-primary">{editingAthlete ? 'Update' : 'Add'} Athlete</button>
-            </form>
-          </div>
-        )}
-
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Grade</th>
-              <th>School</th>
-              <th>PR</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {athletes?.map(athlete => (
-              <tr key={athlete.id}>
-                <td>{athlete.name}</td>
-                <td>{athlete.grade}</td>
-                <td>{athlete.school_level === 'high_school' ? 'HS' : 'MS'}</td>
-                <td>{athlete.personal_record || '-'}</td>
-                <td>
-                  <button onClick={() => startEdit(athlete)} className="btn-edit">Edit</button>
-                  <button onClick={() => { if(confirm('Delete this athlete?')) deleteMutation.mutate(athlete.id) }} className="btn-delete">Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Card>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Grade</TableHead>
+                <TableHead>School</TableHead>
+                <TableHead>PR</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {athletes?.map(athlete => (
+                <TableRow key={athlete.id}>
+                  <TableCell className="font-semibold">{athlete.name}</TableCell>
+                  <TableCell>{athlete.grade}</TableCell>
+                  <TableCell>{athlete.school_level === 'high_school' ? 'HS' : 'MS'}</TableCell>
+                  <TableCell>{athlete.personal_record || '-'}</TableCell>
+                  <TableCell>
+                    <div className="flex gap-2">
+                      <Button variant="secondary" size="sm" onClick={() => startEdit(athlete)}>Edit</Button>
+                      <Button variant="destructive" size="sm" onClick={() => { if(confirm('Delete this athlete?')) deleteMutation.mutate(athlete.id) }}>Delete</Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Card>
       </section>
     </main>
   )

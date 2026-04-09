@@ -23,8 +23,8 @@ const useAuth = () => {
     setIsLoggedIn(!!token)
   }, [])
 
-  const login = (password) => {
-    if (password === 'greyhounds2026') {
+  const login = (username, password) => {
+    if (username === 'admin' && password === 'greyhounds2026') {
       localStorage.setItem('authToken', 'authenticated')
       setIsLoggedIn(true)
       return true
@@ -383,27 +383,19 @@ function ContactPage() {
 
 // Login Page
 function LoginPage() {
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [copied, setCopied] = useState(false)
   const navigate = useNavigate()
   const { login } = useAuth()
 
-  const testPassword = 'greyhounds2026'
-
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (login(password)) {
+    if (login(username, password)) {
       navigate('/admin')
     } else {
-      setError('Invalid password')
+      setError('Invalid username or password')
     }
-  }
-
-  const copyPassword = () => {
-    navigator.clipboard.writeText(testPassword)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
@@ -414,10 +406,20 @@ function LoginPage() {
           <Card className="w-full max-w-md">
             <CardHeader>
               <CardTitle>Sign In</CardTitle>
-              <CardDescription>Enter your password to access the admin dashboard</CardDescription>
+              <CardDescription>Enter your credentials to access the admin dashboard</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter username"
+                  />
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
                   <Input
@@ -425,21 +427,12 @@ function LoginPage() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter admin password"
+                    placeholder="Enter password"
                   />
                 </div>
                 {error && <p className="text-red-500 text-sm">{error}</p>}
                 <Button type="submit" className="w-full">Login</Button>
               </form>
-              <div className="mt-6 p-4 bg-gold-light rounded-lg border-2 border-dashed border-gold-dark text-center">
-                <p className="text-sm text-gray-500 italic mb-2">For Testing Purposes Only</p>
-                <div className="flex items-center justify-center gap-3">
-                  <code className="bg-white px-3 py-1 rounded border text-purple-dark">{testPassword}</code>
-                  <Button variant="secondary" size="sm" onClick={copyPassword}>
-                    {copied ? 'Copied!' : 'Copy'}
-                  </Button>
-                </div>
-              </div>
             </CardContent>
           </Card>
         </div>
